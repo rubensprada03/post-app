@@ -29,15 +29,7 @@ npm install
 npm run dev
 ```
 
-Acesse [http://localhost:5173](http://localhost:5173) no navegador.
-
-```bash
-# Para gerar o build de produção
-npm run build
-
-# Para visualizar o build localmente
-npm run preview
-```
+Acesse [http://localhost:5173] no navegador.
 
 ---
 
@@ -46,8 +38,10 @@ npm run preview
 ### Página Inicial — Lista de Posts
 - Busca todos os posts da API e exibe título e prévia do conteúdo (primeiros 25 caracteres do body)
 - Filtro de busca em tempo real por título
-- Paginação com **Load More** — exibe 9 posts por vez para não sobrecarregar a interface
 - Estados de loading e erro tratados
+
+## Diferencial
+- Paginação com **Load More** — exibe 9 posts por vez para não sobrecarregar a interface
 
 ### Página de Detalhe — `/posts/:id`
 - Exibe todas as informações do post: título, corpo completo e ID do usuário
@@ -60,25 +54,25 @@ npm run preview
 
 ```
 src/
-├── components/        # Componentes reutilizáveis de UI
+├── components/        
 │   ├── Header
 │   ├── PostCard
 │   ├── SearchBar
 │   ├── Loader
 │   └── ErrorMessage
-├── pages/             # Páginas da aplicação
+├── pages/           
 │   ├── Home
 │   └── PostDetail
-├── hooks/             # Hooks customizados
-│   ├── usePosts.js    # Busca de posts na API
-│   └── useLoadMore.js # Lógica de paginação
+├── hooks/            
+│   ├── usePosts.js    
+│   └── useLoadMore.js
 ├── services/
-│   └── api.js         # Comunicação centralizada com a API
+│   └── api.js         
 ├── styles/
-│   ├── theme.js        # Tokens de design (cores, espaçamento, tipografia)
-│   └── GlobalStyles.js # Estilos globais
+│   ├── theme.js        
+│   └── GlobalStyles.js 
 └── routes/
-    └── AppRoutes.jsx   # Definição das rotas
+    └── AppRoutes.jsx  
 ```
 
 Cada componente segue o padrão `Componente.jsx` + `Componente.styles.js`, mantendo a lógica de apresentação separada da estilização.
@@ -95,9 +89,6 @@ A aplicação foi organizada em camadas bem definidas: `services` para comunica�
 
 **Cancelamento de requisições**
 Os hooks utilizam uma flag `cancelled` no cleanup do `useEffect` para evitar atualização de estado em componentes desmontados — prevenindo memory leaks e warnings do React.
-
-**Load More client-side**
-A JSONPlaceholder não suporta paginação server-side, então todos os posts são carregados em uma única requisição e o controle de exibição é feito no cliente. Ao filtrar pela busca, a paginação é resetada automaticamente para o início.
 
 **Estilização com arquivos separados**
 Cada componente tem seu próprio arquivo `.styles.js`, evitando arquivos longos e mistura de responsabilidades. O `ThemeProvider` centraliza os tokens de design (cores, espaçamentos, sombras), garantindo consistência visual em toda a aplicação.
