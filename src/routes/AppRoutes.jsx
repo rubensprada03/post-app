@@ -1,20 +1,17 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-
-function ComingSoon() {
-  return (
-    <div style={{ padding: '2rem' }}>
-      <h1>PostsApp</h1>
-      
-    </div>
-  )
-}
+import { Header } from '../components/Header'
+import { Home } from '../pages/Home'
 
 export function AppRoutes() {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/home" element={<ComingSoon />} />
-      </Routes>
+      <Header />
+      <main>
+        <Routes>
+          <Route path="/"         element={<Home />} />
+          <Route path="/post/:id" element={<Home />} />
+        </Routes>
+      </main>
     </BrowserRouter>
   )
 }
