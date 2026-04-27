@@ -115,3 +115,49 @@ export const EmptyHint = styled.p`
   font-size: 0.85rem;
   color: ${({ theme }) => theme.colors.accent};
 `
+
+export const LoadMoreWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing.md};
+  margin-top: ${({ theme }) => theme.spacing.xxl};
+`
+
+export const LoadMoreButton = styled.button`
+  display: inline-flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing.sm};
+  padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.xl};
+  border-radius: ${({ theme }) => theme.radii.full};
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  background: ${({ theme }) => theme.colors.primary};
+  color: #fff;
+  border: 2px solid transparent;
+  transition: all ${({ theme }) => theme.transitions.normal};
+  box-shadow: ${({ theme }) => theme.shadows.sm};
+
+  &:hover {
+    background: #2d2d4a;
+    transform: translateY(-2px);
+    box-shadow: ${({ theme }) => theme.shadows.md};
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+  }
+`
+
+export const LoadMoreInfo = styled.p`
+  font-size: 0.8rem;
+  color: ${({ theme }) => theme.colors.textMuted};
+`

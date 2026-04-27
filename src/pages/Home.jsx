@@ -1,7 +1,8 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { usePosts } from '../hooks/usePosts'
+import { useLoadMore } from '../hooks/useLoadMore'
 import { SearchBar } from '../components/SearchBar'
 import { PostCard } from '../components/PostCard'
 import { Loader } from '../components/Loader'
@@ -22,6 +23,9 @@ import {
   EmptyIcon,
   EmptyText,
   EmptyHint,
+  LoadMoreWrapper,
+  LoadMoreButton,
+  LoadMoreInfo,
 } from './Home.styles'
 
 export function Home() {
@@ -32,6 +36,13 @@ export function Home() {
   const filteredPosts = posts.filter((post) =>
     post.title.toLowerCase().includes(search.toLowerCase())
   )
+
+  const { visibleItems, hasMore, loadMore, reset } = useLoadMore(filteredPosts)
+
+  // Ao mudar a busca, volta pro início da paginação
+  useEffect(() => {
+    reset()
+  }, [search])
 
   return (
     <HomeSection>
@@ -54,8 +65,8 @@ export function Home() {
           <>
             <ResultsMeta>
               <ResultsCount>
-                Exibindo <ResultsAccent>{filteredPosts.length}</ResultsAccent>{' '}
-                de {posts.length} posts
+                Exibindo <ResultsAccent>{visibleItems.length}</ResultsAccent>{' '}
+                de <ResultsAccent>{filteredPosts.length}</ResultsAccent> posts
                 {search && ` para "${search}"`}
               </ResultsCount>
               {search && (
@@ -72,16 +83,29 @@ export function Home() {
                 <EmptyHint>Tente usar outras palavras-chave.</EmptyHint>
               </EmptyState>
             ) : (
-              <PostsGrid>
-                {filteredPosts.map((post, index) => (
-                  <PostCard
-                    key={post.id}
-                    post={post}
-                    index={index}
-                    onClick={(id) => navigate(`/post/${id}`)}
-                  />
-                ))}
-              </PostsGrid>
+              <>
+                <PostsGrid>
+                  {visibleItems.map((post, index) => (
+                    <PostCard
+                      key={post.id}
+                      post={post}
+                      index={index}
+                      onClick={(id) => navigate(`/post/${id}`)}
+                    />
+                  ))}
+                </PostsGrid>
+
+                {hasMore && (
+                  <LoadMoreWrapper>
+                    <LoadMoreButton onClick={loadMore}>
+                      Carregar mais
+                    </LoadMoreButton>
+                    <LoadMoreInfo>
+                      {filteredPosts.length - visibleItems.length} posts restantes
+                    </LoadMoreInfo>
+                  </LoadMoreWrapper>
+                )}
+              </>
             )}
           </>
         )}
